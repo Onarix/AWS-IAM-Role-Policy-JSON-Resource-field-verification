@@ -1,0 +1,18 @@
+.input {
+    border: 1px;
+    background-color: antiquewhite;
+    border-style: solid;
+    white-space: pre-wrap;
+}
+
+.output {
+    color: rgb(8, 188, 8);
+}
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+}

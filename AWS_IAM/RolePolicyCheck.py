@@ -1,3 +1,4 @@
+from .RolePolicyExceptionHandler import *
 import json
 import re
 import numbers as nm
@@ -5,38 +6,50 @@ import numbers as nm
 
 class RolePolicyCheck:
     file = ""
+    content = ""
     pattern = re.compile("[\w+=,.@-]+")
 
     def __init__(self, source) -> None:
-        self.document_verify(source)
+        try:
+            self.document_verify(source)
+        except PolicyNameException as e:
+            raise RolePolicyException(e)
+        except PolicyDocumentException as e:
+            raise RolePolicyException(e)
+
         self.file = source
 
-    def resource_verify(self) -> bool:
-        with open(self.file) as f:
-            policy = json.load(f)
-            for statement in policy["PolicyDocument"]["Statement"]:
-                if statement["Resource"] == "*":
-                    return False
-            return True
+    def resource_verify(self) -> list:
+        policy = self.content
+        status = []
+        for statement in policy["PolicyDocument"]["Statement"]:
+            if statement["Resource"] == "*":
+                status.append(False)
+            else:
+                status.append(True)
+        return status
 
     def document_verify(self, file):
         with open(file) as f:
             try:
                 policy = json.load(f)
+                self.content = policy
 
                 # PolicyName
                 if "PolicyName" not in policy:
-                    print("Document does not contain 'PolicyName'!")
+                    raise PolicyNameException("Document does not contain 'PolicyName'!")
                 if type(policy["PolicyName"]) is not str:
-                    print("'PolicyName' is not a string!")
+                    raise PolicyNameException("'PolicyName' is not a string!")
                 if self.pattern.fullmatch(policy["PolicyName"]) is None:
-                    print("Document contains invalid 'PolicyName'!")
+                    raise PolicyNameException("Document contains invalid 'PolicyName'!")
                 if len(policy["PolicyName"]) not in range(1, 128):
-                    print("Incorrect length of 'PolicyName'!")
+                    raise PolicyNameException("Incorrect length of 'PolicyName'!")
 
                 # PolicyDocument
                 if "PolicyDocument" not in policy:
-                    print("Document does not contain 'PolicyDocument'!")
+                    raise PolicyDocumentException(
+                        "Document does not contain 'PolicyDocument'!"
+                    )
                 if (
                     type(policy["PolicyDocument"]) is not dict
                     or [
@@ -52,7 +65,9 @@ class RolePolicyCheck:
                         )
                     ]
                 ):
-                    print("'PolicyDocument' is not valid JSON structure!")
+                    raise PolicyDocumentException(
+                        "'PolicyDocument' is not valid JSON structure!"
+                    )
 
             except ValueError:
                 print("Invalid JSON file!")
