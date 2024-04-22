@@ -30,27 +30,47 @@ The <b>*AWS-IAM-Role-Policy-JSON-Resource-field-verification project*</b> is a u
 
 Method 'resource_verify()' returns logical <b>FALSE</b>, if the resource value contains a single asterisk (*) and <b>TRUE</b> if otherwise.
 
+```python
+def resource_verify(self) -> list:
+    status = []
+    for statement in self.policy.content["PolicyDocument"]["Statement"]:
+        if statement["Resource"] == "*":
+            status.append(False)
+        else:
+            status.append(True)
+    return status
+```
 
 ## Built with
 
-The method checking whole JSON file and validating resource field was built as an simple web app. 
+The method checking whole JSON file and validating resource field was built as a simple web app. 
 
-[![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev) - Backend <br> 
-[![My Skills](https://skillicons.dev/icons?i=js)](https://skillicons.dev) - Frontend
+[![My Skills](https://skillicons.dev/icons?i=python)](https://skillicons.dev) - Backend Flask service, containing dedicated class for Role Policy JSON file, validating it and checking the 'resources' status <br> 
+[![My Skills](https://skillicons.dev/icons?i=js)](https://skillicons.dev) - Simple Frontend service, that helps to visualize the process of Role Policy data validation.
 
 ## How to run?
 
-### Webapp
-To run webapp, create virtual environment and install modules from 'requirements.txt':
+### Prerequisites
+First of all, you have to clone the project to use the app:
+```
+$ git clone https://github.com/Onarix/AWS-IAM-Role-Policy-JSON-Resource-field-verification.git
+```
+You need Python installed in your computer to run the project.
+To prepare webapp, install modules from 'requirements.txt':
 ```
 $ pip install -r requirements.txt
 ```
 
+### Webapp
+To use webapp, run the <b>'API.py'</b> script file:
+```
+$ python API.py
+```
+After the Flask server start, you can access the webapp, by running the <b>'index.html'</b> file in your web browser.
+
+
 ### Unit tests
-Use this command to run unit tests:
+Use this command from project main catalog to run unit tests:
 ```
 $ pytest ./test_setup.py ./tests/tests.py
 ```
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
