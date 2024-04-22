@@ -85,8 +85,8 @@ document
 
           // Remove old result
           let old_output = document.getElementsByClassName("output");
-          for (let i = 0; i < old_output.length; i++) {
-            old_output[i].remove();
+          while (old_output[0]) {
+            old_output[0].remove();
           }
 
           for (let i = 0; i < data["ResourceStatus"].length; i++) {

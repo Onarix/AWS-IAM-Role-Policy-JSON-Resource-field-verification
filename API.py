@@ -19,7 +19,7 @@ def load_example():
         return jsonify(message)
 
     return {
-        "Content": rpc.content,
+        "Content": rpc.policy.content,
         "ResourceStatus": rpc.resource_verify(),
     }
 
@@ -39,7 +39,7 @@ def verify():
 
     os.remove("temp.json")
     return {
-        "Content": rpc.content,
+        "Content": rpc.policy.content,
         "ResourceStatus": rpc.resource_verify(),
     }
 
@@ -47,4 +47,3 @@ def verify():
 if __name__ == "__main__":
     app.run()
 
-#TODO: unit tests, refactor, readme

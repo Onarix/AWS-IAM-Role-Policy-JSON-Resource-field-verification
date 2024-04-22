@@ -1,0 +1,6 @@
+{
+    "PolicyName": "^@!",
+    "PolicyDocument": {
+        "Key": "value"
+    }
+}

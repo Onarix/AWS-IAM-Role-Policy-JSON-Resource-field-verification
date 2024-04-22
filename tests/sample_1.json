@@ -1,0 +1,44 @@
+{
+    "PolicyName": "root",
+    "PolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "IamListAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:ListRoles",
+                    "iam:ListUsers"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "IamListAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:ListRoles",
+                    "iam:ListUsers"
+                ],
+                "Resource": "Sample text"
+            },
+            {
+                "Sid": "IamListAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:ListRoles",
+                    "iam:ListUsers"
+                ],
+                "Resource": "Sample text 2"
+            },
+            {
+                "Sid": "IamListAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:ListRoles",
+                    "iam:ListUsers"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
+}
